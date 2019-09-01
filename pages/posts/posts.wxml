@@ -1,0 +1,22 @@
+<import src="post-item/post-item.wxml" />
+
+<view>
+  <swiper indicator-dots="true" autoplay="true">
+    <swiper-item>
+      <image src="/images/wx.png"></image>
+    </swiper-item>
+    <swiper-item>
+      <image src="/images/vr.png"></image>
+    </swiper-item>
+    <swiper-item>
+      <image src="/images/iqiyi.png"></image>
+    </swiper-item>
+  </swiper>
+
+  <block wx:for="{{posts}}" wx:for-item="post" wx:key="1">
+    <view data-post-id="{{post.postId}}" catch:tap="onPostTap">
+      <!-- 文章模版  -->
+      <template is="postItem" data="{{...post}}"></template>
+    </view>
+  </block>
+</view>

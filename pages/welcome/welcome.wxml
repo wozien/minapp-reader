@@ -1,0 +1,7 @@
+<view class="container">
+  <image class="user-avatar" src="/images/avatar.png"></image>
+  <text class="motto">Hello, MinApp</text>
+  <view class="journey-wrapper" bind:tap="onTap">
+    <text class="journey">开启小程序之旅</text>
+  </view>
+</view>
