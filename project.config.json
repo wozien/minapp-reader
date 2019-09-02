@@ -14,7 +14,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "2.7.0",
 	"appid": "wx3b8e3ed21f26e2d3",
-	"projectname": "card",
+	"projectname": "reader",
 	"debugOptions": {
 		"hidedInDevtools": []
 	},
