@@ -22,7 +22,14 @@ Page({
   onPostTap: function(e) {
     const postId = e.currentTarget.dataset.postId;
     wx.navigateTo({
-      url: `../detail/post-detail?id=${postId}`
+      url: `post-detail/post-detail?id=${postId}`
+    })
+  },
+
+  onSwiperTap: function(e) {
+    const postId = e.target.dataset.postId;
+    wx.navigateTo({
+      url: `post-detail/post-detail?id=${postId}`
     })
   }
 })

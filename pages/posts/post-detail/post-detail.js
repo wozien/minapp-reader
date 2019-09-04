@@ -1,4 +1,4 @@
-const mockData = require('../../data/post-data.js');
+const mockData = require('../../../data/post-data.js');
 const app = getApp();
 
 // 文章收藏对象的缓存key

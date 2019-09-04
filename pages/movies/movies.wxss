@@ -1,0 +1,13 @@
+@import "movie-list/movie-list.wxss";
+
+/* pages/movies/movies.wxss */
+
+.movies-container {
+  background: #f2f2f2;
+  overflow: hidden;
+}
+
+.movies-item {
+  margin-bottom: 30rpx;
+}
+

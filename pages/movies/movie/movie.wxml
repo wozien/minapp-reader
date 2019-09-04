@@ -1,0 +1,9 @@
+<import src="../stars/stars.wxml" />
+
+<template name="movie">
+  <view class="movie-container">
+    <image class="movie-img" src="{{coverImg}}"></image>
+    <text class="movie-title">{{title}}</text>
+    <template is="stars" data="{{stars, score: average}}"/>
+  </view>
+</template>
