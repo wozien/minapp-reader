@@ -10,7 +10,8 @@ Page({
    */
   data: {
     category: '',
-    movies: []
+    movies: [],
+    total: 0
   },
 
   /**
@@ -18,22 +19,8 @@ Page({
    */
   onLoad: function (options) {
     const category = options.category;
-    this.setData({ category})
-
-    let path;
-    switch(category) {
-      case 'hot':
-        path = '/v2/movie/in_theaters';
-        break;
-      case 'come':
-        path = '/v2/movie/coming_soon';
-        break;
-      case 'top':
-        path = '/v2/movie/top250';
-        break;
-    }
-
-    this.getMoviesData(path);
+    this.setData({ category });
+    this.getMoviesData();
   },
 
   onReady: function() {
@@ -49,8 +36,45 @@ Page({
     })
   },
 
-  getMoviesData: function (pathName) {
-    const url = `${app.globalData.doubanBaseUrl}/${pathName}`;
+  // 页面触底触发
+  onReachBottom: function() {
+    this.getMoviesData();
+    wx.showNavigationBarLoading();
+  },
+
+  // 下拉刷新
+  onPullDownRefresh: function() {
+    this.setData({
+      movies: [],
+      total: 0
+    });
+    this.getMoviesData();
+    wx.showNavigationBarLoading();
+  },
+
+  getUrl: function () {
+    let path;
+    let url;
+    switch (this.data.category) {
+      case 'hot':
+        path = '/v2/movie/in_theaters';
+        break;
+      case 'come':
+        path = '/v2/movie/coming_soon';
+        break;
+      case 'top':
+        path = '/v2/movie/top250';
+        break;
+    }
+    url = `${app.globalData.doubanBaseUrl}/${path}`;
+    if(this.data.total) {
+      url += `?start=${this.data.total}&count=20`;
+    }
+    return url;
+  },
+
+  getMoviesData: function () {
+    const url = this.getUrl();
     const self = this;
     // 请求
     wx.request({
@@ -66,7 +90,10 @@ Page({
   },
 
   processMoviesData: function(moviesData) {
-    const movies = [];
+    wx.hideNavigationBarLoading();
+    if (!moviesData.subjects.length) return;
+
+    const movies = this.data.movies.slice();
     moviesData.subjects.forEach(sub => {
       let title = sub.title;
       if (title.length > 6) {
@@ -81,6 +108,9 @@ Page({
       })
     })
 
-    this.setData({movies});
+    this.setData({
+      movies,
+      total: this.data.total + 20
+    });
   }
 })
