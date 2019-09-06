@@ -66,9 +66,18 @@ Page({
     const tempData = {};
     tempData[`${type}Movies`] = {
       movies,
+      category: type,
       categoryTitle: typeMaps[type]
     } 
 
     this.setData(tempData);
+  },
+
+  onMoreTap: function(ev) {
+    const category = ev.currentTarget.dataset.category;
+    // 跳转更多
+    wx.navigateTo({
+      url: 'movie-more/movie-more?category=' + category,
+    })
   }
 })
