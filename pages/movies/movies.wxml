@@ -1,6 +1,13 @@
 <import src="movie-list/movie-list.wxml" />
+<import src="movie-grid/movie-grid.wxml" />
 
-<view class="movies-container">
+<view class="search">
+  <icon class="search-icon" type="search" size="13"></icon>
+  <input class="search-input" placeholder="搜索电影" placeholder-class="plahd"  value="{{searchValue}}"  bindinput="onSearchInput" bindconfirm="onSearchConfirm"/>
+  <icon wx:if="{{searchValue}}" class="clear-icon" type="clear" size="13" catchtap="onClear"></icon>
+</view>
+
+<view class="movies-container" wx:if="{{!showSearchPanel}}">
   <view class="movies-item">
     <template is="movieList" data="{{...hotMovies}}"/>
   </view>
@@ -9,5 +16,12 @@
   </view>
   <view class="movies-item">
     <template is="movieList" data="{{...topMovies}}"/>
+  </view>
+</view>
+
+<view wx:else class="search-result">
+  <text wx:if="{{searchMovies.movies && searchMovies.movies.length ==0}}">无搜索结果</text>
+  <view wx:else>
+    <template is="movieGrid" data="{{...searchMovies}}" />
   </view>
 </view>

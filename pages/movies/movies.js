@@ -14,7 +14,10 @@ Page({
     // 即将上映
     comeMovies: {},
     // top电影
-    topMovies: {}
+    topMovies: {},
+    searchMovies: {},
+    showSearchPanel: false,
+    searchValue: ''
   },
 
   /**
@@ -67,7 +70,7 @@ Page({
     tempData[`${type}Movies`] = {
       movies,
       category: type,
-      categoryTitle: typeMaps[type]
+      categoryTitle: typeMaps[type] || ''
     } 
 
     this.setData(tempData);
@@ -78,6 +81,30 @@ Page({
     // 跳转更多
     wx.navigateTo({
       url: 'movie-more/movie-more?category=' + category,
+    })
+  },
+
+  onSearchInput: function(e) {
+    this.setData({ searchValue: e.detail.value})
+  },
+
+  onClear: function() {
+    this.setData({ showSearchPanel: false, searchValue: '', searchMovies: {} });
+  },
+
+  onSearchConfirm: function(e) {
+    const self = this;
+    const url = `${app.globalData.doubanBaseUrl}/v2/movie/search?q=${e.detail.value}`;
+    wx.request({
+      url,
+      header: {
+        'Content-Type': 'json'
+      },
+      success: function (res) {
+        // console.log(res);
+        self.setData({ showSearchPanel: true });
+        self.processMoviesData(res.data, 'search');
+      }
     })
   }
 })
