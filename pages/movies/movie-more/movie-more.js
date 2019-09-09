@@ -104,7 +104,7 @@ Page({
         stars: utils.startToArray(sub.rating.stars),
         average: sub.rating.average,
         coverImg: sub.images.large,
-        id: sub.id
+        movieId: sub.id
       })
     })
 
@@ -112,5 +112,13 @@ Page({
       movies,
       total: this.data.total + 20
     });
+  },
+
+  onMovieTap: function (ev) {
+    const movieId = ev.currentTarget.dataset.movieid;
+    // 跳转电影详情
+    wx.navigateTo({
+      url: '../movie-detail/movie-detail?id=' + movieId
+    })
   }
 })
